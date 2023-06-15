@@ -13,10 +13,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def get_lesson_status():
-    pass
-
-
 def get_messages_text(attempts):
     messages_text = []
     for attempt in attempts:
@@ -37,11 +33,13 @@ def get_messages_text(attempts):
 
 def main(devman_token: str, telegram_token: str, chat_id: str):
     bot = telegram.Bot(token=telegram_token)
+    logger.info("Бот запущен")
     url = 'https://dvmn.org/api/long_polling/'
     headers = {
         'Authorization': f'Token {devman_token}'
     }
     params = {}
+
     while True:
         try:
             response = requests.get(url, params=params, headers=headers, timeout=90)
@@ -56,10 +54,10 @@ def main(devman_token: str, telegram_token: str, chat_id: str):
 
         result = response.json()
         if result['status'] == 'timeout':
-            logger.info(f"Timeout {result['timestamp_to_request']=}")
             params = {
                 'timestamp': result['timestamp_to_request']
             }
+            logger.info(f"Timeout {result['timestamp_to_request']=}")
         if result['status'] == 'found':
             params = {
                 'timestamp': result['last_attempt_timestamp']
@@ -79,7 +77,6 @@ if __name__ == '__main__':
     logging.basicConfig(
         level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
-    logger.info("Бот запущен")
     try:
         main(devman_token, telegram_token, chat_id)
     except (KeyboardInterrupt, SystemExit):
