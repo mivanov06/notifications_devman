@@ -1,8 +1,8 @@
 import logging
 from time import sleep
-import telegram
 
 import requests
+from telegram import Bot
 from environs import Env
 
 logging.basicConfig(
@@ -32,8 +32,9 @@ def get_messages_text(attempts):
 
 
 def main(devman_token: str, telegram_token: str, chat_id: str):
-    bot = telegram.Bot(token=telegram_token)
+    bot = Bot(token=telegram_token)
     logger.info("Бот запущен")
+
     url = 'https://dvmn.org/api/long_polling/'
     headers = {
         'Authorization': f'Token {devman_token}'
