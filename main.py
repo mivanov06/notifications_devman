@@ -59,7 +59,7 @@ def run_bot(devman_token: str, telegram_token: str, chat_id: str):
             params = {
                 'timestamp': attempts['last_attempt_timestamp']
             }
-            for message_text in get_messages_text(tasks['new_attempts']):
+            for message_text in get_messages_text(attempts['new_attempts']):
                 bot.send_message(chat_id=chat_id, text=message_text)
                 logger.info('Сообщение отправлено')
 
