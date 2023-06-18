@@ -19,11 +19,12 @@ def get_messages_text(attempts):
         else:
             text_result = 'Преподователю все понравилось, можно приступить к следующему уроку!'
 
-        message_text = f"У вас проверили работу «{lesson_title}»\n" \
-               f"\n" \
-               f"{text_result}\n" \
-               f"{lesson_url}"
-        messages_text.append(message_text)
+        message_text = f'''
+        У вас проверили работу «{lesson_title}»
+        
+        {text_result}
+        {lesson_url}'''
+        messages_text.append(dedent(message_text))
     return messages_text
 
 
