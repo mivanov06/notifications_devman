@@ -26,7 +26,7 @@ def get_messages_text(attempts):
     return messages_text
 
 
-def main(devman_token: str, telegram_token: str, chat_id: str):
+def run_bot(devman_token: str, telegram_token: str, chat_id: str):
     bot = Bot(token=telegram_token)
     logger.info("Бот запущен")
 
@@ -63,7 +63,7 @@ def main(devman_token: str, telegram_token: str, chat_id: str):
                 logger.info('Сообщение отправлено')
 
 
-if __name__ == '__main__':
+def main():
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -75,6 +75,10 @@ if __name__ == '__main__':
     chat_id = env("CHAT_ID")
 
     try:
-        main(devman_token, telegram_token, chat_id)
+        run_bot(devman_token, telegram_token, chat_id)
     except (KeyboardInterrupt, SystemExit):
         logger.error("Бот остановлен")
+
+
+if __name__ == '__main__':
+    main()
