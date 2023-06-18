@@ -1,4 +1,5 @@
 import logging
+from textwrap import dedent
 from time import sleep
 
 import requests
