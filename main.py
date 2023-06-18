@@ -48,17 +48,17 @@ def run_bot(devman_token: str, telegram_token: str, chat_id: str):
             sleep(60)
             continue
 
-        result = response.json()
-        if result['status'] == 'timeout':
+        attempts = response.json()
+        if attempts['status'] == 'timeout':
             params = {
-                'timestamp': result['timestamp_to_request']
+                'timestamp': attempts['timestamp_to_request']
             }
-            logger.info(f"Timeout {result['timestamp_to_request']=}")
-        if result['status'] == 'found':
+            logger.info(f"Timeout {attempts['timestamp_to_request']=}")
+        if attempts['status'] == 'found':
             params = {
-                'timestamp': result['last_attempt_timestamp']
+                'timestamp': attempts['last_attempt_timestamp']
             }
-            for message_text in get_messages_text(result['new_attempts']):
+            for message_text in get_messages_text(tasks['new_attempts']):
                 bot.send_message(chat_id=chat_id, text=message_text)
                 logger.info('Сообщение отправлено')
 
