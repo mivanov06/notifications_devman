@@ -5,11 +5,6 @@ import requests
 from telegram import Bot
 from environs import Env
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-
 logger = logging.getLogger(__name__)
 
 
@@ -69,15 +64,16 @@ def main(devman_token: str, telegram_token: str, chat_id: str):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
     env = Env()
     env.read_env()
     devman_token = env("DEVMAN_TOKEN")
     telegram_token = env("TELEGRAM_TOKEN")
     chat_id = env("CHAT_ID")
 
-    logging.basicConfig(
-        level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    )
     try:
         main(devman_token, telegram_token, chat_id)
     except (KeyboardInterrupt, SystemExit):
