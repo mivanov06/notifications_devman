@@ -27,6 +27,9 @@ env\bin\activate
 DEVMAN_TOKEN = токен Devman
 TELEGRAM_TOKEN= токен Telegram бота
 CHAT_ID = ваш chat_id Telegram
+
+TELEGRAM_LOGGER_TOKEN= токен Telegram бота для отправки логов админу
+CHAT_ADMIN_ID = chat_id админа
 ```
 Персональный токен можно получить, на сайте [Девман](https://dvmn.org/api/docs/).  
 Создать бота для Telegram и узнать его токен можно у [BotFather](https://telegram.me/BotFather).  
