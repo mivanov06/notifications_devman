@@ -6,6 +6,19 @@ import requests
 from telegram import Bot
 from environs import Env
 
+
+class ErrorLogsHandler(logging.Handler):
+
+    def __init__(self, logger_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.logger_bot = logger_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.logger_bot.send_message(chat_id=self.chat_id, text=log_entry)
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -28,9 +41,8 @@ def get_messages_text(attempts):
     return messages_text
 
 
-def run_bot(devman_token: str, telegram_token: str, chat_id: str):
-    bot = Bot(token=telegram_token)
-    logger.info("Бот запущен")
+def run_bot(devman_token: str, bot, chat_id: str):
+    logger.info('Бот запущен')
 
     url = 'https://dvmn.org/api/long_polling/'
     headers = {
@@ -46,7 +58,7 @@ def run_bot(devman_token: str, telegram_token: str, chat_id: str):
             logger.info('Тайм-аут')
             continue
         except requests.exceptions.ConnectionError:
-            logger.info('Соединение потеряно')
+            logger.warning('Соединение потеряно')
             sleep(60)
             continue
 
@@ -75,9 +87,15 @@ def main():
     devman_token = env("DEVMAN_TOKEN")
     telegram_token = env("TELEGRAM_TOKEN")
     chat_id = env("CHAT_ID")
+    chat_admin_id = env("CHAT_ADMIN_ID")
+    logger_telegram_token = env("TELEGRAM_LOGGER_TOKEN")
+    bot = Bot(token=telegram_token)
+    logger_bot = Bot(token=logger_telegram_token)
+
+    logger.addHandler(ErrorLogsHandler(logger_bot, chat_admin_id))
 
     try:
-        run_bot(devman_token, telegram_token, chat_id)
+        run_bot(devman_token, bot, chat_id)
     except (KeyboardInterrupt, SystemExit):
         logger.error("Бот остановлен")
 
