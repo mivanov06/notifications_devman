@@ -42,6 +42,30 @@ CHAT_ADMIN_ID = chat_id админа
 python main.py
 ```
 
+###  Для запуска контейнера Docker:
+
+Должен быть установлен `docker` и `docker-compose`
+
+1. Создайте контейнер командой
+```
+docker build -f dockerfile . -t devman_bot
+```
+
+2. Запустите контейнер командой
+```
+docker-compose run --rm -d bot
+```
+
+3. Для остановки используйте
+```
+docker stop container_id
+```
+
+`container_id` можно узнать с помощью команды
+
+```
+docker container ls
+```
 
 ### Цель проекта
 
