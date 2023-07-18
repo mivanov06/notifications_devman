@@ -1,0 +1,14 @@
+version: "3.5"
+services:
+  bot:
+    image: notifications_devman
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/notifications_devman
+    env_file:
+      - .env
+    command:
+      - "python"
+      - "main.py"
